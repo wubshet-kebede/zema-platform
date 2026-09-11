@@ -1,0 +1,41 @@
+services:
+  mongo:
+    image: mongo:latest
+    container_name: zema_mongo
+    restart: unless-stopped
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo_data:/data/db
+    networks:
+      - zema_network
+    healthcheck:
+      test:
+        ["CMD-SHELL", 'mongosh --quiet --eval "db.adminCommand(''ping'').ok"']
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 20s
+
+  backend:
+    build:
+      context: ./server
+      dockerfile: Dockerfile
+    container_name: zema_server
+    restart: unless-stopped
+    ports:
+      - "5000:5000"
+    env_file:
+      - ./server/.env
+    depends_on:
+      mongo:
+        condition: service_healthy
+    networks:
+      - zema_network
+
+volumes:
+  mongo_data:
+
+networks:
+  zema_network:
+    driver: bridge
