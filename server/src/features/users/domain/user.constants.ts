@@ -2,6 +2,8 @@ export const USER_ROLES = ["listener", "artist", "admin"] as const;
 
 export type UserRole = (typeof USER_ROLES)[number];
 export const DEFAULT_USER_ROLE: UserRole = "listener";
+export const ADMIN_USER_ROLE: UserRole = "admin";
+export const ARTIST_USER_ROLE: UserRole = "artist";
 export const ACCOUNT_STATUSES = [
   "pending",
   "active",

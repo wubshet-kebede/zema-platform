@@ -12,21 +12,19 @@ export const userSchema = new Schema<IUserDocument, IUserModel>(
     username: {
       type: String,
       required: [true, "Username is required"],
-      unique: true,
+
       trim: true,
       lowercase: true,
       minlength: [3, "Username must be at least 3 characters"],
       maxlength: [30, "Username cannot exceed 30 characters"],
-      index: true,
     },
     email: {
       type: String,
       required: [true, "Email is required"],
-      unique: true,
+
       trim: true,
       lowercase: true,
       match: [/^\S+@\S+\.\S+$/, "Please provide a valid email address"],
-      index: true,
     },
     passwordHash: {
       type: String,
@@ -44,7 +42,6 @@ export const userSchema = new Schema<IUserDocument, IUserModel>(
       enum: ACCOUNT_STATUSES,
       default: DEFAULT_ACCOUNT_STATUS,
       required: true,
-      index: true,
     },
     displayName: {
       type: String,
@@ -102,3 +99,6 @@ export const userSchema = new Schema<IUserDocument, IUserModel>(
     },
   },
 );
+userSchema.index({ username: 1 }, { unique: true });
+userSchema.index({ email: 1 }, { unique: true });
+userSchema.index({ accStatus: 1 });
