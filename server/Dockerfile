@@ -1,34 +1,29 @@
-#  Build TypeScript source
+# --- Builder Stage ---
 FROM node:20-alpine AS builder
 
 WORKDIR /app
 
-# Copy dependency manifests
-COPY package*.json ./
+# Install native build tools for Argon2 compilation
+RUN apk add --no-cache python3 make g++
 
-# Install all dependencies (including devDependencies)
+COPY package*.json ./
+# Install ALL dependencies (including dev) and compile native modules
 RUN npm ci
 
-# Copy source code and build
 COPY . .
 RUN npm run build
 
-#  Production execution environment
+# --- Production Runner Stage ---
 FROM node:20-alpine AS runner
 
 WORKDIR /app
 
 ENV NODE_ENV=production
 
-# Copy dependency manifests and install production-only modules
-COPY package*.json ./
-RUN npm ci --only=production
-
-# Copy compiled JavaScript output from builder stage
+# Copy compiled native node_modules directly from builder to avoid re-compiling/network calls
+COPY --from=builder /app/node_modules ./node_modules
+COPY --from=builder /app/package*.json ./
 COPY --from=builder /app/dist ./dist
-
-# Use non-root node user for container security
-USER node
 
 EXPOSE 5000
 
