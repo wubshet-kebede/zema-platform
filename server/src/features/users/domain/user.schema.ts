@@ -16,7 +16,7 @@ export const userSchema = new Schema<IUserDocument, IUserModel>(
       trim: true,
       lowercase: true,
       minlength: [3, "Username must be at least 3 characters"],
-      maxlength: [30, "Username cannot exceed 30 characters"],
+      maxlength: [10, "Username cannot exceed 10 characters"],
     },
     email: {
       type: String,
