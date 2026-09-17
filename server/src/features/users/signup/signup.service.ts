@@ -1,4 +1,4 @@
-import { User } from "../domain/user/user.model.js";
+import { User } from "../domain/user/index.js";
 import { AppError } from "../../../shared/errors/app.error.js";
 import { PasswordHash } from "../../../shared/utils/password.util.js";
 

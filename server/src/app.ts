@@ -5,7 +5,7 @@ import helmet from "helmet";
 import { requestLogger } from "./shared/middleware/requestLogger.js";
 import { notFoundHandler } from "./shared/middleware/notFoundHandler.js";
 import { errorHandler } from "./shared/middleware/errorHandler.js";
-
+import routes from "./routes/index.js";
 const app: Express = express();
 const allowedOrigins = (process.env.CORS_ORIGINS ?? "")
   .split(",")
@@ -35,11 +35,8 @@ app.get("/health", (_req, res) => {
     },
   });
 });
-
-// 3. TODO: Feature Routes will be mounted here
-// app.use('/api/songs', songRouter);
-// app.use('/api/stats', statsRouter);
-
+// routes
+app.use("/api/v1", routes);
 app.use(notFoundHandler);
 app.use(errorHandler);
 
