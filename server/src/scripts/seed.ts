@@ -1,11 +1,11 @@
 import bcrypt from "bcryptjs";
 import { connectDB } from "../config/db.js";
-import { User } from "../features/users/domain/user.model.js";
+import { User } from "../features/users/domain/user/user.model.js";
 import {
   ADMIN_USER_ROLE,
   ARTIST_USER_ROLE,
   DEFAULT_USER_ROLE,
-} from "../features/users/domain/user.constants.js";
+} from "../features/users/domain/user/user.constants.js";
 
 const seedDatabase = async (): Promise<void> => {
   try {

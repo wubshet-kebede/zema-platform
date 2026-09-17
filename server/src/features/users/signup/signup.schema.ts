@@ -29,6 +29,7 @@ export const registerSchema = z.object({
       .trim()
       .min(2, "Display name must be at least 2 characters")
       .max(50, "Display name cannot exceed 50 characters"),
+    bio: z.string().max(250).optional(),
   }),
 });
 export type RegisterInput = z.infer<typeof registerSchema>["body"];
