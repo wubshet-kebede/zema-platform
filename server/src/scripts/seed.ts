@@ -1,4 +1,4 @@
-import argon2 from "argon2";
+import bcrypt from "bcryptjs";
 import { connectDB } from "../config/db.js";
 import { User } from "../features/users/domain/user.model.js";
 import {
@@ -16,9 +16,7 @@ const seedDatabase = async (): Promise<void> => {
     console.log("Cleared existing users collection");
 
     const defaultPassword = "Password123!";
-    const hashedPassword = await argon2.hash(defaultPassword, {
-      type: argon2.argon2id,
-    });
+    const hashedPassword = await bcrypt.hash(defaultPassword, 12);
 
     const seedUsers = [
       {
@@ -30,7 +28,7 @@ const seedDatabase = async (): Promise<void> => {
         isActive: true,
       },
       {
-        username: "zemari_sample",
+        username: "zemari_21",
         email: "singer@zemaplatform.com",
         passwordHash: hashedPassword,
         displayName: "Zemari Kinetibeb",
@@ -39,7 +37,7 @@ const seedDatabase = async (): Promise<void> => {
         isActive: true,
       },
       {
-        username: "listener_test",
+        username: "listener",
         email: "believer@zemaplatform.com",
         passwordHash: hashedPassword,
         displayName: "believer",

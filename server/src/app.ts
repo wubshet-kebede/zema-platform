@@ -2,9 +2,9 @@ import express, { type Express } from "express";
 import cors from "cors";
 import cookieParser from "cookie-parser";
 import helmet from "helmet";
-import { requestLogger } from "./middleware/requestLogger.js";
-import { notFoundHandler } from "./middleware/notFoundHandler.js";
-import { errorHandler } from "./middleware/errorHandler.js";
+import { requestLogger } from "./shared/middleware/requestLogger.js";
+import { notFoundHandler } from "./shared/middleware/notFoundHandler.js";
+import { errorHandler } from "./shared/middleware/errorHandler.js";
 
 const app: Express = express();
 const allowedOrigins = (process.env.CORS_ORIGINS ?? "")

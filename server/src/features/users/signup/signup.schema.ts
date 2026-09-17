@@ -31,19 +31,4 @@ export const registerSchema = z.object({
       .max(50, "Display name cannot exceed 50 characters"),
   }),
 });
-
-export const loginSchema = z.object({
-  body: z.object({
-    email: z
-      .string({ message: "Email is required" })
-      .trim()
-      .email("Invalid email address format")
-      .transform((val) => val.toLowerCase()),
-    password: z
-      .string({ message: "Password is required" })
-      .min(1, "Password cannot be empty"),
-  }),
-});
-
 export type RegisterInput = z.infer<typeof registerSchema>["body"];
-export type LoginInput = z.infer<typeof loginSchema>["body"];
