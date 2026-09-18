@@ -1,14 +1,23 @@
 import type { Request, Response, NextFunction } from "express";
-import type { LoginInput } from "./login.types.js";
-import { loginService } from "./login.service.js";
 
-export const loginController = async (
-  req: Request<{}, {}, LoginInput>,
+import { refreshService } from "./refresh-token.service.js";
+import { AppError } from "../../../shared/errors/app.error.js";
+
+export const refreshController = async (
+  req: Request,
   res: Response,
   next: NextFunction,
 ) => {
   try {
-    const result = await loginService.execute(req.body);
+    const refreshToken = req.cookies?.refreshToken;
+
+    if (!refreshToken) {
+      return next(
+        new AppError("Refresh token required", 401, "REFRESH_TOKEN_REQUIRED"),
+      );
+    }
+
+    const result = await refreshService.execute(refreshToken);
 
     res.cookie("accessToken", result.accessToken, {
       httpOnly: true,
@@ -26,10 +35,7 @@ export const loginController = async (
 
     res.status(200).json({
       success: true,
-      message: "Login successful",
-      data: {
-        user: result.user,
-      },
+      message: "Token refreshed successfully",
     });
   } catch (error) {
     next(error);
